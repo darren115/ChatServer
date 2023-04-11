@@ -35,6 +35,8 @@ public class ClientThread implements Runnable {
 			s = input.readLine();
 			if ("connected".equals(s.substring(s.length() - 9, s.length()))) {
 				username = (s.substring(0, s.length() - 9).trim());
+				
+				//need to handle duplicate usernames
 				server.addClient(username, this);
 
 			} else {
@@ -43,7 +45,6 @@ public class ClientThread implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -63,14 +64,13 @@ public class ClientThread implements Runnable {
 				if (s.charAt(0) == '@') {
 					String[] split = s.split("\s");
 
-					if (server.messageClient(split[0].substring(1), username + ":" + s.substring(split[0].length()))) {
-
+					if (server.messageClient(split[0].substring(1), "@" + username + ":" + s.substring(split[0].length()))) {
+						
 					} else {
 						server.messageClient(username, "User " + split[0].substring(1) + " not found");
 					}
 				} else {
 
-					System.out.print(username + " : " + s + "\n");
 					server.broadcast(s, this);
 				}
 

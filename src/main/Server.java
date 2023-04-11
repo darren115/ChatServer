@@ -70,7 +70,6 @@ public class Server {
 	}
 	
 	public boolean messageClient(String username, String message) throws BadLocationException {
-		System.out.println("running");
 		UI.appendMessage(message);
 		ClientThread client = userMap.get(username);
 		if(client == null) return false;

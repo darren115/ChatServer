@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.Style;
@@ -28,7 +29,6 @@ public class UserInterface {
 
 	private Server server;
 
-//	private JTextArea textArea;
 	private JTextPane textArea;
 	private JTextField textField;
 	private JList<String> list;
@@ -40,7 +40,7 @@ public class UserInterface {
 	public UserInterface(Server server) {
 		
 		JFrame frame = new JFrame("Chat Server");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setSize(400, 400);
 		frame.setLocationRelativeTo(null);
 		frame.setLayout(new BorderLayout());
@@ -50,18 +50,11 @@ public class UserInterface {
 		JPanel mainChat = new JPanel();
 		mainChat.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-//		mainChat.setSize(1000, 1000);
-//		mainChat.setBackground(Color.red);
-//		panel.setLayout(new FlowLayout());
 
 		frame.setTitle("Chat Server ");
 
-//		textArea = new JTextArea(15, 25);
 		textArea = new JTextPane();
 		textArea.setEditable(false);
-		
-//		textArea.setLineWrap(true);
-//		textArea.setWrapStyleWord(true);
 		
 		JScrollPane chatScroll = new JScrollPane(textArea);
 		chatScroll.setPreferredSize(new Dimension(270, 300));
@@ -76,12 +69,11 @@ public class UserInterface {
 			List<String> selectedUsers = list.getSelectedValuesList();
 			if (field.length() > 0) {
 				try {
-				if(selectedUsers.size()==0) {
+				if(selectedUsers.isEmpty()) {
 					server.broadcastAll("Server: " + textField.getText());
 				}
 				else {
 					for(String user: selectedUsers) {
-						System.out.println(user);
 						server.messageClient(user, "Server: " + textField.getText());
 					}
 				}
@@ -100,9 +92,6 @@ public class UserInterface {
 		listModel1.addElement("test");
 		listModel1.removeElement("test");
 		
-//		list.addListSelectionListener(e->{
-//			System.out.println(list.getSelectedValuesList());
-//		});
 		
 		
 		JScrollPane usersScrollList = new JScrollPane(list);
@@ -131,7 +120,7 @@ public class UserInterface {
 
 		frame.add(mainChat, BorderLayout.LINE_START);
 		frame.add(panel, BorderLayout.LINE_END);
-//		frame.pack();
+		frame.pack();
 		frame.setVisible(true);
 
 	}
@@ -141,12 +130,6 @@ public class UserInterface {
 		time = LocalTime.now();
 		String current = time.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 		
-//		SimpleAttributeSet attributeSet = new SimpleAttributeSet();
-//	      StyleConstants.setItalic(attributeSet, true);
-//	      textArea.setCharacterAttributes(attributeSet, true);
-//	      textArea.setText("Learn with Text and "); 
-//	      Font font = new Font("Verdana", Font.BOLD, 22);
-//	      textArea.setFont(font);
 	      StyledDocument doc = textArea.getStyledDocument();
 	      Style style = textArea.addStyle("", null);
 	      StyleConstants.setForeground(style, Color.GREEN);
